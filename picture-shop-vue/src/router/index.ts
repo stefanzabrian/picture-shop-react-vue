@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import DashboardView from "@/views/DashboardView.vue";
 import LoginView from "@/views/LoginView.vue";
 import AboutView from "@/views/AboutView.vue";
+import RegisterView from "@/views/RegisterView.vue";
 import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
@@ -22,11 +23,16 @@ const router = createRouter({
       name: "About",
       component: AboutView,
     },
+    {
+      path: "/register",
+      name: "Register",
+      component: RegisterView,
+    },
   ],
 });
 
 router.beforeEach(async (to) => {
-  const publicPages = ["/login"];
+  const publicPages = ["/login", "/register"];
   const authRequired = !publicPages.includes(to.path);
   const auth = useAuthStore();
 
