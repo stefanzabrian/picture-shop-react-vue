@@ -1,4 +1,5 @@
 import router from "@/router";
+import { BASE_URL } from "@/router/api";
 import { defineStore } from "pinia";
 
 
@@ -6,7 +7,7 @@ export const useRegisterStore = defineStore({
     id: "register",
    actions: {
     async register(email:string, password:string){
-        const response = await fetch("http://localhost:8080/register", {
+        const response = await fetch(`${BASE_URL}register`, {
             method: "POST",
             headers: {
                 "Content-Type" : "application/json",

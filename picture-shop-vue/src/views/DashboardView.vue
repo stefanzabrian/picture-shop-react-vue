@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useAuthStore } from "@/stores/auth";
 import { onMounted, ref } from "vue";
+import { BASE_URL } from "@/router/api";
 
 const auth = useAuthStore();
 const token = auth.token;
@@ -8,7 +9,7 @@ const data = ref("");
 
 onMounted(async () => {
 
-    const response = await fetch("http://localhost:8080/", {
+    const response = await fetch(BASE_URL, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
