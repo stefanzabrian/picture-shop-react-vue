@@ -3,6 +3,8 @@ import DashboardView from "@/views/DashboardView.vue";
 import LoginView from "@/views/LoginView.vue";
 import AboutView from "@/views/AboutView.vue";
 import RegisterView from "@/views/RegisterView.vue";
+import CreatePictureView from "@/views/picture/CreatePictureView.vue";
+import AllPictureView from "@/views/picture/AllPictureView.vue";
 import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
@@ -27,6 +29,16 @@ const router = createRouter({
       path: "/register",
       name: "Register",
       component: RegisterView,
+    },
+    {
+      path: "/picture/create",
+      name: "CreatePicture",
+      component: CreatePictureView,
+    },
+    {
+      path: "/picture/all",
+      name: "AllPicture",
+      component: AllPictureView,
     },
   ],
 });
