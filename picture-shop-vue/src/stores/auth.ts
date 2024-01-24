@@ -15,9 +15,6 @@ export const useAuthStore = defineStore({
     console.log('Is token expired?',isTokenExpired);
     console.log(expirationDate);
 
-    
-    //console.log("Stored user:", storedUser);
-    //console.log("Stored token:", storedToken);
 
     return {
       user: storedUser ? JSON.parse(storedUser) : null,

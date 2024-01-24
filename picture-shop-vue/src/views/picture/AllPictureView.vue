@@ -2,10 +2,12 @@
 import { useAuthStore } from "@/stores/auth";
 import { onMounted, ref } from "vue";
 import { BASE_URL } from "@/router/api";
+import { usePictureStore } from "@/stores/picture";
 
 const auth = useAuthStore();
 const token = auth.token;
 const data = ref("");
+const pic = usePictureStore();
 
 onMounted(async () => {
   const response = await fetch(`${BASE_URL}picture/all`, {
@@ -41,7 +43,9 @@ onMounted(async () => {
     >
       <dl class="divide-y divide-gray-100 border-b border-t">
         <div class="lg:flex lg:flex-1 lg:justify-end">
-          <div class="ml-20 px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 border-b">
+          <div
+            class="ml-20 px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 border-b"
+          >
             <dt class="text-sm font-medium leading-6 text-gray-900">Name</dt>
             <dd
               class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
@@ -62,7 +66,9 @@ onMounted(async () => {
         </div>
 
         <div class="lg:flex px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt class="text-sm font-medium leading-6 text-gray-900 border-b border-t">
+          <dt
+            class="text-sm font-medium leading-6 text-gray-900 border-b border-t"
+          >
             Description
           </dt>
           <dd
@@ -79,6 +85,34 @@ onMounted(async () => {
               alt="Picture"
             />
             <span v-else>No Image Available</span>
+          </div>
+        </div>
+
+        <div class="lg:flex lg:justify-end">
+          <div
+            class="ml-20 px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 border-b"
+          >
+          <div>
+              <button
+                type="submit"
+                class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                Edit
+              </button>
+            </div>
+          </div>
+          <div
+            class="ml-4 mr-20 px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 border-b"
+          >
+            <div>
+              <button
+                type="submit"
+                @click="pic.delete(picture.id)"
+                class="rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       </dl>

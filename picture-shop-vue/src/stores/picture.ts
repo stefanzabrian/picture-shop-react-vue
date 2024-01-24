@@ -24,13 +24,36 @@ export const usePictureStore = defineStore({
       });
       if (response.status == 201) {
         alert("Picture added successfully");
-        router.push("/");
+        router.push("/picture/all");
       } else {
         const errorBody = await response.json();
         console.log(errorBody);
-        throw new Error("Error creating the use");
+        throw new Error("Error creating the picture");
       }
       console.log(response.status);
     },
+
+    async delete(
+      id: number
+    ) {
+      const auth = useAuthStore();
+      const token = auth.token;
+      const response = await fetch(`${BASE_URL}picture/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      });
+      if (response.status == 202) {
+        alert("Picture Deleted!")
+        location.reload();
+      } else {
+        const errorBody = await response.json();
+        console.log(errorBody);
+        throw new Error("Error deleting the picture")
+      }
+      console.log(response.status);
+    }
   },
 });
