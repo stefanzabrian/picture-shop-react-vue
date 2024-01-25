@@ -33,27 +33,51 @@ export const usePictureStore = defineStore({
       console.log(response.status);
     },
 
-    async delete(
-      id: number
-    ) {
+    async delete(id: number) {
       const auth = useAuthStore();
       const token = auth.token;
       const response = await fetch(`${BASE_URL}picture/delete/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       if (response.status == 202) {
-        alert("Picture Deleted!")
+        alert("Picture Deleted!");
         location.reload();
       } else {
         const errorBody = await response.json();
         console.log(errorBody);
-        throw new Error("Error deleting the picture")
+        throw new Error("Error deleting the picture");
       }
       console.log(response.status);
-    }
+    },
+
+    async getById(id: number): Promise<any> {
+      const auth = useAuthStore();
+      const token = auth.token;
+      try {
+        const response = await fetch(`${BASE_URL}picture/${id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        if (response.status == 200) {
+          const data = await response.json();
+          return data;
+          // i want to return the value on the method call ??
+        } else {
+          const errorBody = await response.json();
+          console.log("Error fetching picture by ID: ", errorBody);
+          throw new Error("Error fetchign picture by Id");
+        }
+      } catch (error) {
+        console.error("Error fetching the picture by Id", error);
+        throw new Error("Failed to fetch picture by Id");
+      }
+    },
   },
 });

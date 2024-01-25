@@ -3,11 +3,21 @@ import { useAuthStore } from "@/stores/auth";
 import { onMounted, ref } from "vue";
 import { BASE_URL } from "@/router/api";
 import { usePictureStore } from "@/stores/picture";
+import router from "@/router";
 
 const auth = useAuthStore();
 const token = auth.token;
 const data = ref("");
 const pic = usePictureStore();
+
+const navigateToSinglePicture = (picture) => {
+  console.log('Clicken on the image:', picture);
+  router.push( {
+    name: 'single-picture-view',
+    params: {id: picture.id.toString()},
+    query: {pictureId: picture.id.toString() }
+  });
+};
 
 onMounted(async () => {
   const response = await fetch(`${BASE_URL}picture/all`, {
@@ -78,14 +88,16 @@ onMounted(async () => {
           </dd>
         </div>
         <div class="flex items-center justify-center mb-10">
-          <div class="max-w-[400px] max-h-[400px] overflow-hidden">
+          
             <img
               v-if="picture.pictureUrl"
               :src="picture.pictureUrl"
               alt="Picture"
+              @click="navigateToSinglePicture(picture)"
+              class="max-w-[400px] max-h-[400px] cursor-pointer"
             />
             <span v-else>No Image Available</span>
-          </div>
+          
         </div>
 
         <div class="lg:flex lg:justify-end">
