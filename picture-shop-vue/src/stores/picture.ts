@@ -45,7 +45,7 @@ export const usePictureStore = defineStore({
       });
       if (response.status == 202) {
         alert("Picture Deleted!");
-        location.reload();
+        router.push('/picture/all')
       } else {
         const errorBody = await response.json();
         console.log(errorBody);

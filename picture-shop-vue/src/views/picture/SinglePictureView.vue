@@ -3,11 +3,13 @@ import { useAuthStore } from "@/stores/auth";
 import { onMounted, ref } from "vue";
 import { BASE_URL } from "@/router/api";
 import { useRoute } from "vue-router";
+import { usePictureStore } from "@/stores/picture";
 
 const auth = useAuthStore();
 const token = auth.token;
 const data = ref("");
 const route = useRoute();
+const pic = usePictureStore();
 
 onMounted(async () => {
   const pictureId = route.params.id;
@@ -28,7 +30,6 @@ onMounted(async () => {
     console.log("No Content available");
     alert("No content available yet!");
   } else {
-  
     console.error("Error fetching picture by ID:", response.statusText);
   }
 });
@@ -37,19 +38,45 @@ onMounted(async () => {
 <template>
   <div>
     <div class="px-4 sm:px-0">
-      <h3 class="text-base text-center font-semibold leading-7 text-gray-900">
+      <h3 class="text-3xl text-center font-semibold leading-7 text-gray-900">
         {{ data.name }}
       </h3>
     </div>
-    <div
-      class="mt-6 border-t border-gray-100"
-    >
-      <dl class="divide-y divide-gray-100 border-b border-t">
-        <div class="lg:flex lg:flex-1 lg:justify-end">
-          <div
-            class="ml-20 px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 border-b"
+    <div class="lg:flex lg:justify-end">
+      <div
+        class="ml-4 px-4 py-6 sm:grid"
+      >
+        <div>
+          <router-link
+            :to="{ name: 'edit-picture-view', params: { id: data.id } }"
+            class="rounded-md bg-indigo-600 px-5 py-2.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            <dt class="text-sm font-medium leading-6 text-gray-900">Name</dt>
+            Edit
+          </router-link>
+        </div>
+      </div>
+
+      <div
+            class="ml-4 px-4 py-5 sm:grid sm:grid-cols-1.5 sm:px-0"
+          >
+            <div>
+              <button
+                type="submit"
+                @click="pic.delete(data.id)"
+                class="rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+    </div>
+    <div class="mt-6">
+      <dl class="divide-y border-b border-t border-r border-l border-indigo-500 mb-10">
+        <div>
+          <div
+            class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 border-b"
+          >
+            <dt class="ml-4 text-sm font-medium leading-6 text-gray-900">Name</dt>
             <dd
               class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
             >
@@ -57,9 +84,9 @@ onMounted(async () => {
             </dd>
           </div>
           <div
-            class="ml-4 mr-20 px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 border-b"
+            class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
           >
-            <dt class="text-sm font-medium leading-6 text-gray-900">Price</dt>
+            <dt class="ml-4 text-sm font-medium leading-6 text-gray-900">Price</dt>
             <dd
               class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
             >
@@ -68,9 +95,9 @@ onMounted(async () => {
           </div>
         </div>
 
-        <div class="lg:flex px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
           <dt
-            class="text-sm font-medium leading-6 text-gray-900 border-b border-t"
+            class="ml-4 text-sm font-medium leading-6 text-gray-900"
           >
             Description
           </dt>
@@ -80,13 +107,9 @@ onMounted(async () => {
             {{ data.description }}
           </dd>
         </div>
-        <div class="flex items-center justify-center mb-10">
-          <div class="overflow-hidden">
-            <img
-              v-if="data.pictureUrl"
-              :src="data.pictureUrl"
-              alt="Picture"
-            />
+        <div class="flex items-center justify-center">
+          <div class="overflow-hidden mt-5 mb-5 mr-5 ml-5">
+            <img v-if="data.pictureUrl" :src="data.pictureUrl" alt="Picture"/>
           </div>
         </div>
       </dl>

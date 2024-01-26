@@ -2,20 +2,18 @@
 import { useAuthStore } from "@/stores/auth";
 import { onMounted, ref } from "vue";
 import { BASE_URL } from "@/router/api";
-import { usePictureStore } from "@/stores/picture";
 import router from "@/router";
 
 const auth = useAuthStore();
 const token = auth.token;
 const data = ref("");
-const pic = usePictureStore();
 
 const navigateToSinglePicture = (picture) => {
-  console.log('Clicken on the image:', picture);
-  router.push( {
-    name: 'single-picture-view',
-    params: {id: picture.id.toString()},
-    query: {pictureId: picture.id.toString() }
+  console.log("Clicken on the image:", picture);
+  router.push({
+    name: "single-picture-view",
+    params: { id: picture.id.toString() },
+    query: { pictureId: picture.id.toString() },
   });
 };
 
@@ -42,21 +40,21 @@ onMounted(async () => {
 <template>
   <div>
     <div class="px-4 sm:px-0">
-      <h3 class="text-base text-center font-semibold leading-7 text-gray-900">
+      <h3 class="text-3xl text-center font-semibold leading-7 text-gray-900">
         All Pictures
       </h3>
     </div>
     <div
       v-for="picture in data"
       :key="picture.id"
-      class="mt-6 border-t border-gray-100"
+      class="mt-6"
     >
-      <dl class="divide-y divide-gray-100 border-b border-t">
-        <div class="lg:flex lg:flex-1 lg:justify-end">
+      <dl class="divide-y border-b border-t border-r border-l border-indigo-500">
+        <div>
           <div
-            class="ml-20 px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 border-b"
+            class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 border-b"
           >
-            <dt class="text-sm font-medium leading-6 text-gray-900">Name</dt>
+            <dt class="ml-4 text-sm font-medium leading-6 text-gray-900">Name</dt>
             <dd
               class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
             >
@@ -64,69 +62,41 @@ onMounted(async () => {
             </dd>
           </div>
           <div
-            class="ml-4 mr-20 px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 border-b"
+            class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 border-b"
           >
-            <dt class="text-sm font-medium leading-6 text-gray-900">Price</dt>
+            <dt class="ml-4 text-sm font-medium leading-6 text-gray-900">Price</dt>
             <dd
               class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
             >
               {{ picture.price }}
             </dd>
           </div>
-        </div>
-
-        <div class="lg:flex px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt
-            class="text-sm font-medium leading-6 text-gray-900 border-b border-t"
-          >
-            Description
-          </dt>
-          <dd
-            class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
-          >
-            {{ picture.description }}
-          </dd>
-        </div>
-        <div class="flex items-center justify-center mb-10">
-          
-            <img
-              v-if="picture.pictureUrl"
-              :src="picture.pictureUrl"
-              alt="Picture"
-              @click="navigateToSinglePicture(picture)"
-              class="max-w-[400px] max-h-[400px] cursor-pointer"
-            />
-            <span v-else>No Image Available</span>
-          
-        </div>
-
-        <div class="lg:flex lg:justify-end">
           <div
-            class="ml-20 px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 border-b"
+            class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
           >
-          <div>
-              <button
-                type="submit"
-                class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Edit
-              </button>
-            </div>
-          </div>
-          <div
-            class="ml-4 mr-20 px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 border-b"
-          >
-            <div>
-              <button
-                type="submit"
-                @click="pic.delete(picture.id)"
-                class="rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-              >
-                Delete
-              </button>
-            </div>
+            <dt class="ml-4 text-sm font-medium leading-6 text-gray-900">
+              Description
+            </dt>
+            <dd
+              class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
+            >
+              {{ picture.description }}
+            </dd>
           </div>
         </div>
+
+        <div class="flex items-center justify-center mb-5">
+          <img
+            v-if="picture.pictureUrl"
+            :src="picture.pictureUrl"
+            alt="Picture"
+            @click="navigateToSinglePicture(picture)"
+            class="max-w-[400px] max-h-[400px] cursor-pointer mt-5"
+          />
+          <span v-else>No Image Available</span>
+        </div>
+
+        <div class="lg:flex lg:justify-end"></div>
       </dl>
     </div>
   </div>
