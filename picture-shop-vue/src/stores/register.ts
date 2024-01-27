@@ -19,6 +19,7 @@ export const useRegisterStore = defineStore({
       } else if (response.status == 409) {
         alert("Email already exists.");
       } else {
+        console.log(response.statusText);
         throw new Error("Error creating the user");
       }
       console.log(response.status);
