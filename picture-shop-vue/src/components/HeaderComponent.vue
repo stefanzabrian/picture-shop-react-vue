@@ -41,7 +41,7 @@ const usersOptions: Option[] = [
   {
     name: "Settings",
     description: "Edit details",
-    href: "#",
+    href: "/user/view-client",
     icon: SquaresPlusIcon,
   },
   {

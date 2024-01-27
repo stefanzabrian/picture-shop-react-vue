@@ -7,6 +7,7 @@ import CreatePictureView from "@/views/picture/CreatePictureView.vue";
 import AllPictureView from "@/views/picture/AllPictureView.vue";
 import SinglePictureView from "@/views/picture/SinglePictureView.vue";
 import EditPictureView from "@/views/picture/EditPictureView.vue";
+import ViewClientDetails from "@/views/user-client/ViewClientDetails.vue";
 import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
@@ -51,6 +52,11 @@ const router = createRouter({
       path: "/picture/edit/:id",
       name: "edit-picture-view",
       component: EditPictureView,
+    },
+    {
+      path: "/user/view-client",
+      name: "view-client-details",
+      component: ViewClientDetails,
     },
   ],
 });
