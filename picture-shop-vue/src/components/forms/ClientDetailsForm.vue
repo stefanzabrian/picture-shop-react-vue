@@ -99,6 +99,13 @@
             />
           </div>
         </div>
+        <div class="text-sm">
+          <a
+            href="/user/verify-identity"
+            class="font-semibold text-indigo-600 hover:text-indigo-500"
+            >Change password?</a
+          >
+        </div>
 
         <div>
           <button
@@ -114,15 +121,13 @@
 </template>
 
 <script setup lang="ts">
-import router from '@/router';
-import { BASE_URL } from '@/router/api';
-import { useAuthStore } from '@/stores/auth';
-import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import router from "@/router";
+import { BASE_URL } from "@/router/api";
+import { useAuthStore } from "@/stores/auth";
+import { onMounted, ref } from "vue";
 
 const token = useAuthStore().token;
 const clientData = ref({});
-
 
 onMounted(async () => {
   const response = await fetch(`${BASE_URL}user/view-client`, {
@@ -143,28 +148,21 @@ onMounted(async () => {
 });
 
 const saveClient = async () => {
-
-const response = await fetch(
-  `${BASE_URL}user/edit-client`,
-  {
+  const response = await fetch(`${BASE_URL}user/edit-client`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(clientData.value),
+  });
+
+  if (response.status == 202) {
+    alert("Details updated");
+    router.push("/");
+  } else {
+    const errorBody = await response.json();
+    console.log(errorBody);
   }
-);
-console.log(clientData.value);
-
-if (response.status == 202) {
-  alert("Details updated")
-  router.push("/");
-} else {
-  const errorBody = await response.json();
-  console.log(errorBody);
-}
-
 };
-
 </script>
