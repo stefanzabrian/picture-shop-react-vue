@@ -91,9 +91,12 @@ const user = reactive({
   password: "",
 });
 
-function onSubmit() {
+async function onSubmit() {
   if (user.email != "" && user.password != "") {
-    useAuthStore().login(user.email, user.password);
+    const loginSuccess = await useAuthStore().login(user.email, user.password);
+    if (!loginSuccess) {
+      alert('Invalid Credentials!');
+    }
   }
 }
 </script>

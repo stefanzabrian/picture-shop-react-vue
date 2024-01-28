@@ -11,7 +11,7 @@
       <h2
         class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
       >
-        Confirm Identity
+        Change Password
       </h2>
     </div>
 
@@ -20,20 +20,38 @@
         class="space-y-6"
         action="#"
         method="POST"
-        @submit.prevent="tryCurrentPasswword"
+        @submit.prevent="updatePassword"
       >
         <div>
           <label
-            for="current password"
+            for="new password"
             class="block text-sm font-medium leading-6 text-gray-900"
-            >Current Password</label
+            >New Password</label
           >
           <div class="mt-2">
             <input
-              id="current password"
-              name="current password"
+              id="new password"
+              name="new password"
               type="text"
-              v-model="clientData.currentPassword"
+              v-model="clientData.newPassword"
+              required="true"
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label
+            for="confirm password"
+            class="block text-sm font-medium leading-6 text-gray-900"
+            >Confirm Password</label
+          >
+          <div class="mt-2">
+            <input
+              id="confirm password"
+              name="confirm password"
+              type="text"
+              v-model="clientData.confirmPassword"
               required="true"
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
@@ -45,7 +63,7 @@
             type="submit"
             class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Next
+            Change
           </button>
         </div>
       </form>
@@ -62,20 +80,20 @@ import { ref } from "vue";
 const token = useAuthStore().token;
 const clientData = ref({});
 
-const tryCurrentPasswword = async () => {
-  const response = await fetch(`${BASE_URL}user/current-password`, {
+const updatePassword = async () => {
+  const response = await fetch(`${BASE_URL}user/change-password`, {
     method: "POST",
     headers: {
-      "Content-Type": " application/json",
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(clientData.value),
   });
-
-  if (response.status == 202) {
-    router.push("/user/change-password");
+  if (response.status == 200) {
+    alert("Password changed");
+    router.push("/");
   } else {
-    alert("Failed to veirfy identity");
+    alert("Failed to update password");
     const errorBody = await response.json();
     console.log(errorBody);
   }

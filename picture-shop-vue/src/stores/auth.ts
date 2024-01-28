@@ -43,9 +43,9 @@ export const useAuthStore = defineStore({
         this.user = email;
         this.token = accessToken;
         router.push(this.returnUrl || "/");
-
-        
+        return true;
       } else {
+        return false;
         throw new Error("Inavlid credentials");
       }
       

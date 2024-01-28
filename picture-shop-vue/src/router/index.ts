@@ -9,6 +9,7 @@ import SinglePictureView from "@/views/picture/SinglePictureView.vue";
 import EditPictureView from "@/views/picture/EditPictureView.vue";
 import ViewClientDetails from "@/views/user-client/ViewClientDetails.vue";
 import VerifyIdentityView from "@/views/user-client/VerifyIdentityView.vue";
+import ChangePasswordView from "@/views/user-client/ChangePasswordView.vue";
 import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
@@ -63,6 +64,11 @@ const router = createRouter({
       path: "/user/verify-identity",
       name: "verify-current-password",
       component: VerifyIdentityView,
+    },
+    {
+      path: "/user/change-password",
+      name: "change-password",
+      component: ChangePasswordView,
     },
   ],
 });
