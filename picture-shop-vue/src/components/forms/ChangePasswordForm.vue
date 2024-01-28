@@ -81,6 +81,11 @@ const token = useAuthStore().token;
 const clientData = ref({});
 
 const updatePassword = async () => {
+  if (clientData.value.newPassword !== clientData.value.confirmPassword) {
+    alert("New password and confirm password do not match");
+    return; // Prevent further execution
+  }
+
   const response = await fetch(`${BASE_URL}user/change-password`, {
     method: "POST",
     headers: {
