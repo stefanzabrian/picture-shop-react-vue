@@ -12,8 +12,6 @@ export const useAuthStore = defineStore({
     const currendDate = new Date();
     const isTokenExpired = expirationDate < currendDate;
     localStorage.setItem('isExpired', JSON.stringify(isTokenExpired));
-    console.log('Is token expired?',isTokenExpired);
-    console.log(expirationDate);
 
 
     return {
@@ -46,11 +44,8 @@ export const useAuthStore = defineStore({
         return true;
       } else {
         return false;
-        throw new Error("Inavlid credentials");
       }
       
-      console.log(response.status);
-      console.log(response);
     },
 
 
