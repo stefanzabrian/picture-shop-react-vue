@@ -10,6 +10,7 @@ import EditPictureView from "@/views/picture/EditPictureView.vue";
 import ViewClientDetails from "@/views/user-client/ViewClientDetails.vue";
 import VerifyIdentityView from "@/views/user-client/VerifyIdentityView.vue";
 import ChangePasswordView from "@/views/user-client/ChangePasswordView.vue";
+import AllOrderView from "@/views/order/AllOrderView.vue";
 import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
@@ -69,6 +70,11 @@ const router = createRouter({
       path: "/user/change-password",
       name: "change-password",
       component: ChangePasswordView,
+    },
+    {
+      path: "/order/all",
+      name: "all-orders",
+      component: AllOrderView,
     },
   ],
 });

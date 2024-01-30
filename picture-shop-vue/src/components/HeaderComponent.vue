@@ -8,10 +8,9 @@ import {
   PopoverPanel,
 } from "@headlessui/vue";
 
-import { ArrowLongLeftIcon, ChevronDownIcon } from "@heroicons/vue/20/solid";
+import { ArrowRightCircleIcon, ChevronDownIcon, CogIcon, FilmIcon, PlusIcon, UserIcon } from "@heroicons/vue/20/solid";
 import {
-  CursorArrowRaysIcon,
-  SquaresPlusIcon,
+  SquaresPlusIcon, ShoppingCartIcon
 } from "@heroicons/vue/24/outline";
 
 type Option = {
@@ -27,13 +26,13 @@ const products: Option[] = [
     name: "View all",
     description: "View all Pictures",
     href: "/picture/all",
-    icon: CursorArrowRaysIcon,
+    icon: FilmIcon,
   },
   {
     name: "Create",
     description: "Add new picture",
     href: "/picture/create",
-    icon: SquaresPlusIcon,
+    icon: PlusIcon,
   },
 ];
 
@@ -42,13 +41,13 @@ const usersOptions: Option[] = [
     name: "Settings",
     description: "Edit details",
     href: "/user/view-client",
-    icon: SquaresPlusIcon,
+    icon: CogIcon,
   },
   {
     name: "Logout",
     description: "Logout",
     onClick: logout,
-    icon: ArrowLongLeftIcon,
+    icon: ArrowRightCircleIcon,
   },
 ];
 
@@ -68,6 +67,7 @@ function logout() {
         <div>
           <RouterLink to="/">Dashboard</RouterLink>
           <RouterLink to="/about" class="ml-3">About</RouterLink>
+          <RouterLink to="/order/all" class="ml-3">All Orders</RouterLink>
         </div>
         <div class="ml-4">
           <PopoverGroup class="hidden lg:flex lg:gap-x-12">
@@ -135,6 +135,7 @@ function logout() {
             </Popover>
           </PopoverGroup>
         </div>
+
         <div v-if="auth.user !== null" class="lg:flex lg:flex-1 lg:justify-end">
           <div>
             <PopoverGroup class="lg:flex lg:gap-x-12">
@@ -142,8 +143,8 @@ function logout() {
                 <PopoverButton
                   class="flex items-center gap-x-5 text leading-6 text-gray-900"
                 >
-                  Logged as: {{ auth.user }}
-                  <ChevronDownIcon
+                 {{ auth.user }}
+                  <UserIcon
                     class="h-5 w-5 flex-none text-gray-400"
                     aria-hidden="true"
                   />
@@ -205,6 +206,14 @@ function logout() {
             </PopoverGroup>
           </div>
         </div>
+
+        <div>
+            <RouterLink to="/">
+             <ShoppingCartIcon
+                    class="h-7 w-6 ml-5 text-gray-900"
+                    aria-hidden="true"/>
+                  </RouterLink>
+          </div>
       </nav>
     </header>
   </div>
