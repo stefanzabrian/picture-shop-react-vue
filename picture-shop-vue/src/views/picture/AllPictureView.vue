@@ -9,7 +9,6 @@ const token = auth.token;
 const data = ref("");
 
 const navigateToSinglePicture = (picture) => {
-  console.log("Clicken on the image:", picture);
   router.push({
     name: "single-picture-view",
     params: { id: picture.id.toString() },
@@ -17,8 +16,29 @@ const navigateToSinglePicture = (picture) => {
   });
 };
 
+const addToShoppingCart = async (picture) => {
+  const response = await fetch(
+    `${BASE_URL}shopping-cart-add/${picture.id}?origin=home`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  if (response.status == 202) {
+    alert(`Picture ${picture.name} Added To Cart!`);
+  } else if (response.status == 200) {
+    router.push("/");
+  } else {
+    const errorData = response.statusText;
+    console.log(errorData);
+  }
+};
+
 onMounted(async () => {
   const response = await fetch(`${BASE_URL}picture/all`, {
+    method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -38,66 +58,75 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div>
-    <div class="px-4 sm:px-0">
-      <h3 class="text-3xl text-center font-semibold leading-7 text-gray-900">
-        All Pictures
-      </h3>
-    </div>
+  <h3 class="text-3xl text-center font-semibold leading-2 text-gray-900 mb-1">
+    All Pictures
+  </h3>
+  <div class="flex flex-wrap">
     <div
       v-for="picture in data"
       :key="picture.id"
-      class="mt-6"
+      class="flex flex-wrap justify-center max-w-sm rounded overflow-hidden shadow-lg ml-2 mr-2 mb-4 mt-4"
     >
-      <dl class="divide-y border-b border-t border-r border-l border-indigo-500">
-        <div>
-          <div
-            class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 border-b"
-          >
-            <dt class="ml-4 text-sm font-medium leading-6 text-gray-900">Name</dt>
-            <dd
-              class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
-            >
-              {{ picture.name }}
-            </dd>
-          </div>
-          <div
-            class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 border-b"
-          >
-            <dt class="ml-4 text-sm font-medium leading-6 text-gray-900">Price</dt>
-            <dd
-              class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
-            >
-              {{ picture.price }}
-            </dd>
-          </div>
-          <div
-            class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
-          >
-            <dt class="ml-4 text-sm font-medium leading-6 text-gray-900">
-              Description
-            </dt>
-            <dd
-              class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
-            >
-              {{ picture.description }}
-            </dd>
-          </div>
-        </div>
-
-        <div class="flex items-center justify-center mb-5">
+      <div
+        class="max-w-sm rounded overflow-hidden shadow-lg ml-2 mr-2 mb-4 mt-2"
+      >
+        <div class="image-container">
           <img
             v-if="picture.pictureUrl"
             :src="picture.pictureUrl"
-            alt="Picture"
             @click="navigateToSinglePicture(picture)"
-            class="max-w-[400px] max-h-[400px] cursor-pointer mt-5"
+            alt="Picture"
+            class="w-[400px] h-[400px] cursor-pointer"
           />
           <span v-else>No Image Available</span>
         </div>
 
-        <div class="lg:flex lg:justify-end"></div>
-      </dl>
+        <div class="description-container">
+          <div class="px-6 py-4 flex flex-1 flex-col">
+            <div class="font-bold text-xl mb-2">{{ picture.name }}</div>
+
+            <div>
+              <p class="text-gray-700 text-base">
+                {{ picture.description }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div
+          class="bottom-section flex flex-row items-center justify-between px-6 pt-1 pb-5"
+        >
+          <div class="px-7 pb-2">
+            <p class="text-xs text-gray-500 dark:text-gray-400 ml-2 mb-2">
+              Price
+            </p>
+            <span
+              class="inline-block bg-gray-200 rounded-full px-9 py-3 text-sm font-semibold text-gray-700 mr-2 mb-2"
+              >{{ picture.price }}</span
+            >
+          </div>
+
+          <div class="px-6 pt-1 pb-5">
+            <p class="text-xs text-gray-500 dark:text-gray-400 ml-2 mb-2">
+              Buy
+            </p>
+            <button
+            @click="addToShoppingCart(picture)"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+            >
+              Add to cart
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
+
+<style>
+.description-container {
+  height: 20em; /* Set your desired height */
+  overflow-y: auto;
+}
+</style>
