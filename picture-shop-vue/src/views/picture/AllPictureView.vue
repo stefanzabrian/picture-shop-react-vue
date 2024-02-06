@@ -24,10 +24,20 @@ const addToShoppingCart = async (picture) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      credentials: 'include',  // Include cookies in cross-origin requests
+      mode: 'cors',
     }
   );
   if (response.status == 202) {
     alert(`Picture ${picture.name} Added To Cart!`);
+    // Access the JSESSIONID cookie from the response
+    const jsessionIdCookie = response.headers.get('Set-Cookie');
+    
+    // Store the cookie in your preferred way (localStorage, cookies, etc.)
+    document.cookie = jsessionIdCookie;
+
+    console.log(`Headers`, document.cookie);
+
   } else if (response.status == 200) {
     router.push("/");
   } else {

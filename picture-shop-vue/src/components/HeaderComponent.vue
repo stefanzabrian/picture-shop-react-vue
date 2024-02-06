@@ -208,7 +208,7 @@ function logout() {
         </div>
 
         <div>
-            <RouterLink to="/">
+            <RouterLink to="/shopping-cart">
              <ShoppingCartIcon
                     class="h-7 w-6 ml-5 text-gray-900"
                     aria-hidden="true"/>
