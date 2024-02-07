@@ -23,23 +23,23 @@
             <div
               class="flex items-center text-gray-500 hover:text-gray-600 cursor-pointer"
             >
-            <a href="/" class="flex items-center">
-              <svg
-                class="icon icon-tabler icon-tabler-chevron-left"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <polyline points="15 6 9 12 15 18" />
-              </svg>
-              <p class="text-sm pl-2 leading-none" href="/">Home</p>
-            </a>
+              <a href="/" class="flex items-center">
+                <svg
+                  class="icon icon-tabler icon-tabler-chevron-left"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <polyline points="15 6 9 12 15 18" />
+                </svg>
+                <p class="text-sm pl-2 leading-none" href="/">Home</p>
+              </a>
             </div>
             <p
               class="lg:text-4xl text-3xl font-black leading-10 text-gray-800 pt-3"
@@ -48,7 +48,7 @@
             </p>
 
             <div
-              v-for="(product, key) in data.products"
+              v-for="(product, key) in filteredProducts"
               :key="key"
               class="md:flex items-strech py-8 md:py-10 lg:py-8 border-t border-gray-50"
             >
@@ -82,6 +82,7 @@
                   <div class="flex itemms-center">
                     <p
                       class="text-xs leading-3 underline text-red-500 pl-5 cursor-pointer"
+                      @click="removePictureFromShoppingCart(product.id)"
                     >
                       Remove
                     </p>
@@ -131,7 +132,7 @@
                   <p
                     class="text-2xl font-bold leading-normal text-right text-gray-800"
                   >
-                    $10,240
+                  ${{ calculateTotalWithCommas() }}
                   </p>
                 </div>
                 <button
@@ -152,7 +153,7 @@
 <script setup lang="ts">
 import { BASE_URL } from "@/router/api";
 import { useAuthStore } from "@/stores/auth";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 const auth = useAuthStore();
 const token = auth.token;
@@ -187,6 +188,38 @@ const fetchData = async () => {
     console.error("Error fetching data:", error);
   }
 };
+
+const removePictureFromShoppingCart = async (productId: any) => {
+  const response = await fetch(`${BASE_URL}shopping-cart-remove/${productId}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    credentials: "include",
+    mode: "cors",
+  });
+  if (response.ok) {
+    alert("Picture removed from shopping cart");
+    await fetchData();
+  } else {
+    const responseData = response.statusText;
+    console.log("Failied to fetch data", responseData);
+  }
+};
+
+const filteredProducts = computed(() => {
+  return Object.values(data.value.products).filter(
+    (product) => product.quantity > 0
+  );
+});
+
+const calculateTotalWithCommas = () => {
+  const shipping = 30; // Assuming shipping is a fixed amount
+  const tax = 35; // Assuming tax is a fixed amount
+  const totalPrice = data.value.totalPrice || 0; // Ensure totalPrice is a valid number
+  const totalAmount = totalPrice + shipping + tax;
+  return totalAmount.toLocaleString(); // Format with commas
+}
 
 onMounted(() => {
   fetchData();
