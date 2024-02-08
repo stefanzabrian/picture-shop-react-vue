@@ -29,7 +29,6 @@ const addToShoppingCart = async (picture) => {
     }
   );
   if (response.status == 202) {
-    alert(`Picture ${picture.name} Added To Cart!`);
     // Access the JSESSIONID cookie from the response
     const jsessionIdCookie = response.headers.get('Set-Cookie');
     

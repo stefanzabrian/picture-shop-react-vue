@@ -20,50 +20,52 @@
             class="lg:w-1/2 md:w-8/12 w-full lg:px-8 lg:py-14 md:px-6 px-4 md:py-8 py-4 bg-white overflow-y-auto overflow-x-hidden lg:h-screen h-auto"
             id="scroll"
           >
-          <div class="flex items-center justify-between">
-            <div
-              class="flex items-center text-gray-500 hover:text-gray-600 cursor-pointer"
-            >
-              <a href="/" class="flex items-center">
-                <svg
-                  class="icon icon-tabler icon-tabler-chevron-left"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <polyline points="15 6 9 12 15 18" />
-                </svg>
-                <p class="text-sm pl-2 leading-none" href="/">Home</p>
-              </a>
+            <div class="flex items-center justify-between">
+              <div
+                class="flex items-center text-gray-500 hover:text-gray-600 cursor-pointer"
+              >
+                <a href="/" class="flex items-center">
+                  <svg
+                    class="icon icon-tabler icon-tabler-chevron-left"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <polyline points="15 6 9 12 15 18" />
+                  </svg>
+                  <p class="text-sm pl-2 leading-none" href="/">Home</p>
+                </a>
+              </div>
+              <div
+                class="flex items-center text-gray-500 hover:text-gray-600 cursor-pointer"
+              >
+                <a href="/picture/all" class="flex items-center">
+                  <svg
+                    class="icon icon-tabler icon-tabler-chevron-left"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <polyline points="15 6 9 12 15 18" />
+                  </svg>
+                  <p class="text-sm pl-2 leading-none" href="/picture/all">
+                    All Pictures
+                  </p>
+                </a>
+              </div>
             </div>
-            <div
-              class="flex items-center text-gray-500 hover:text-gray-600 cursor-pointer"
-            >
-              <a href="/picture/all" class="flex items-center">
-                <svg
-                  class="icon icon-tabler icon-tabler-chevron-left"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <polyline points="15 6 9 12 15 18" />
-                </svg>
-                <p class="text-sm pl-2 leading-none" href="/picture/all">All Pictures</p>
-              </a>
-            </div>
-          </div>
             <p
               class="lg:text-4xl text-3xl font-black leading-10 text-gray-800 pt-3"
             >
@@ -203,7 +205,7 @@
                   </p>
                 </div>
                 <button
-                  onclick="checkoutHandler1(true)"
+                  @click="checkOut()"
                   class="text-base leading-none w-full py-5 bg-gray-800 border-gray-800 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-white"
                 >
                   Checkout
@@ -218,6 +220,7 @@
 </template>
 
 <script setup lang="ts">
+import router from "@/router";
 import { BASE_URL } from "@/router/api";
 import { useAuthStore } from "@/stores/auth";
 import { computed, onMounted, ref } from "vue";
@@ -230,6 +233,27 @@ const data = ref({
   deliveryStart: null,
   deliveryEnd: null,
 });
+
+const checkOut = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}cart-checkout`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      credentials: "include",
+      mode: "cors",
+    });
+    if (response.ok) {
+      router.push("/order/all")
+    } else {
+      const responseData = response.status;
+      console.log("Response: ",responseData);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
 
 const addToShoppingCart = async (picture) => {
   const response = await fetch(
