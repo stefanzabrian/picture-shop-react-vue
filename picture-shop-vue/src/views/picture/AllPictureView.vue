@@ -71,7 +71,7 @@ onMounted(async () => {
   <h3 class="text-3xl text-center font-semibold leading-2 text-gray-900 mb-1">
     All Pictures
   </h3>
-  <div class="flex flex-wrap">
+  <div class="flex flex-wrap justify-center">
     <div
       v-for="picture in data"
       :key="picture.id"

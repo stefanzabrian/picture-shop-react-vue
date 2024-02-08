@@ -20,6 +20,7 @@
             class="lg:w-1/2 md:w-8/12 w-full lg:px-8 lg:py-14 md:px-6 px-4 md:py-8 py-4 bg-white overflow-y-auto overflow-x-hidden lg:h-screen h-auto"
             id="scroll"
           >
+          <div class="flex items-center justify-between">
             <div
               class="flex items-center text-gray-500 hover:text-gray-600 cursor-pointer"
             >
@@ -41,10 +42,32 @@
                 <p class="text-sm pl-2 leading-none" href="/">Home</p>
               </a>
             </div>
+            <div
+              class="flex items-center text-gray-500 hover:text-gray-600 cursor-pointer"
+            >
+              <a href="/picture/all" class="flex items-center">
+                <svg
+                  class="icon icon-tabler icon-tabler-chevron-left"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <polyline points="15 6 9 12 15 18" />
+                </svg>
+                <p class="text-sm pl-2 leading-none" href="/picture/all">All Pictures</p>
+              </a>
+            </div>
+          </div>
             <p
               class="lg:text-4xl text-3xl font-black leading-10 text-gray-800 pt-3"
             >
-              Pictures
+              Shopping cart
             </p>
 
             <div
@@ -79,20 +102,64 @@
                   Description: {{ product.description || "No description" }}
                 </p>
                 <div class="flex items-center justify-between pt-5">
-                  <div class="flex itemms-center">
-                    <p
-                      class="text-xs leading-3 underline text-red-500 pl-5 cursor-pointer"
-                      @click="removePictureFromShoppingCart(product.id)"
-                    >
-                      Remove
-                    </p>
-                  </div>
+                  <p class="text-xs text-gray-500 dark:text-gray-400 ml-2 mb-2">
+                    Price
+                  </p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400 ml-2 mb-2">
+                    Quantity
+                  </p>
+                </div>
+
+                <div class="flex items-center justify-between">
                   <p class="text-base font-black leading-none text-gray-800">
                     {{ product.price || "No price" }}
                   </p>
-                  <p class="text-base font-black leading-none text-gray-800">
-                    Quantity {{ product.quantity || "No quantity" }}
-                  </p>
+                  <div class="mt-3 flex itemms-center">
+                    <button
+                      class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-4 border border-blue-500 hover:border-transparent rounded"
+                      @click="removePictureFromShoppingCart(product.id)"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-6 h-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                        />
+                      </svg>
+                    </button>
+                    <p
+                      class="form-label ml-6 mr-6 mt-2 mb-2 text-base font-black leading-none text-gray-800"
+                      for="form1"
+                    >
+                      {{ product.quantity || "No quantity" }}
+                    </p>
+                    <button
+                      class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-4 border border-blue-500 hover:border-transparent rounded"
+                      @click="addToShoppingCart(product)"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-6 h-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -132,7 +199,7 @@
                   <p
                     class="text-2xl font-bold leading-normal text-right text-gray-800"
                   >
-                  ${{ calculateTotalWithCommas() }}
+                    ${{ calculateTotalWithCommas() }}
                   </p>
                 </div>
                 <button
@@ -163,6 +230,26 @@ const data = ref({
   deliveryStart: null,
   deliveryEnd: null,
 });
+
+const addToShoppingCart = async (picture) => {
+  const response = await fetch(
+    `${BASE_URL}shopping-cart-add/${picture.id}?origin=shopping-cart`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      credentials: "include", // Include cookies in cross-origin requests
+      mode: "cors",
+    }
+  );
+  if (response.status == 200) {
+    await fetchData();
+  } else {
+    const errorData = response.statusText;
+    console.log(errorData);
+  }
+};
 
 // Fetch data from the backend
 const fetchData = async () => {
@@ -199,7 +286,6 @@ const removePictureFromShoppingCart = async (productId: any) => {
     mode: "cors",
   });
   if (response.ok) {
-    alert("Picture removed from shopping cart");
     await fetchData();
   } else {
     const responseData = response.statusText;
@@ -219,7 +305,7 @@ const calculateTotalWithCommas = () => {
   const totalPrice = data.value.totalPrice || 0; // Ensure totalPrice is a valid number
   const totalAmount = totalPrice + shipping + tax;
   return totalAmount.toLocaleString(); // Format with commas
-}
+};
 
 onMounted(() => {
   fetchData();
