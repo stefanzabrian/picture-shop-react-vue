@@ -5,17 +5,17 @@ import { onMounted, ref } from "vue";
 
 const auth = useAuthStore();
 const token = auth.token;
-const data = ref({});
+const orders = ref({});
 
 onMounted(async () => {
-  const response = await fetch(`${BASE_URL}order/all`, {
+  const response = await fetch(`${BASE_URL}order/user-orders`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 
   if (response.ok) {
-    data.value = await response.json();
+    orders.value = await response.json();
   }
   if (response.status == 204) {
     alert("No Orders yet!");
@@ -37,8 +37,10 @@ const getOrderStatusDisplayName = (status) => {
 </script>
 
 <template>
-  <div v-for="order in data[0]" :key="order.id" class="flex items-center border-b border-r border-l border-t">
-    <ul class="flex ml-2 max-w-md divide-y divide-gray-200 dark:divide-gray-700">
+  <div>
+    <div v-if="orders.length > 0">
+      <div v-for="order in orders" :key="order.id" class="flex items-center border-b border-r border-l border-t">
+        <ul class="flex ml-2 max-w-md divide-y divide-gray-200 dark:divide-gray-700">
       <li class="sm:pb-4 sm:pt-4">
         <div class="rtl:space-x-reverse">
           <div class="flex border-r">
@@ -95,5 +97,7 @@ const getOrderStatusDisplayName = (status) => {
         </div>
       </li>
     </ul>
+      </div>
+    </div>
   </div>
 </template>

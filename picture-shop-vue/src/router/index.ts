@@ -12,6 +12,7 @@ import VerifyIdentityView from "@/views/user-client/VerifyIdentityView.vue";
 import ChangePasswordView from "@/views/user-client/ChangePasswordView.vue";
 import AllOrderView from "@/views/order/AllOrderView.vue";
 import ShoppingCartView from "@/views/shopping-cart/ShoppingCartView.vue";
+import UserOrdersView from "@/views/order/UserOrdersView.vue";
 import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
@@ -81,6 +82,11 @@ const router = createRouter({
       path: "/shopping-cart",
       name: "shopping-cart",
       component: ShoppingCartView,
+    },
+    {
+      path: "/user/all-orders",
+      name: "user-orders",
+      component: UserOrdersView,
     },
   ],
 });

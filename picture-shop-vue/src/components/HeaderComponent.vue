@@ -8,7 +8,7 @@ import {
   PopoverPanel,
 } from "@headlessui/vue";
 
-import { ArrowRightCircleIcon, ChevronDownIcon, CogIcon, FilmIcon, PlusIcon, UserIcon } from "@heroicons/vue/20/solid";
+import { ArrowRightCircleIcon, ChevronDownIcon, CogIcon, FilmIcon, PlusIcon, UserIcon, ClipboardDocumentCheckIcon } from "@heroicons/vue/20/solid";
 import {
   SquaresPlusIcon, ShoppingCartIcon
 } from "@heroicons/vue/24/outline";
@@ -42,6 +42,12 @@ const usersOptions: Option[] = [
     description: "Edit details",
     href: "/user/view-client",
     icon: CogIcon,
+  },
+  {
+    name: "Orders",
+    description: "See all orders",
+    href: "/user/all-orders",
+    icon: ClipboardDocumentCheckIcon,
   },
   {
     name: "Logout",

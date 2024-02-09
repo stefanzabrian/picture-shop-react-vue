@@ -245,10 +245,13 @@ const checkOut = async () => {
       mode: "cors",
     });
     if (response.ok) {
-      router.push("/order/all")
-    } else {
-      const responseData = response.status;
-      console.log("Response: ",responseData);
+      router.push("/order/all");
+    } else if (response.status == 400) {
+      alert("Username invalid")
+    } else if (response.status == 404) {
+      router.push("/user/view-client");
+    } else if (response.status == 500) {
+      alert("Order Placed but Failed to send Email")
     }
   } catch (error) {
     console.error("Error fetching data:", error);
