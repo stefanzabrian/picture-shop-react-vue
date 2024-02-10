@@ -245,7 +245,7 @@ const checkOut = async () => {
       mode: "cors",
     });
     if (response.ok) {
-      router.push("/order/all");
+      router.push("/user/all-orders");
     } else if (response.status == 400) {
       alert("Username invalid")
     } else if (response.status == 404) {

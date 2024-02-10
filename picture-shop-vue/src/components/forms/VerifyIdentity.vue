@@ -20,7 +20,7 @@
         class="space-y-6"
         action="#"
         method="POST"
-        @submit.prevent="tryCurrentPasswword"
+        @submit.prevent="requestUpdatePassword"
       >
         <div>
           <label
@@ -57,27 +57,44 @@
 import router from "@/router";
 import { BASE_URL } from "@/router/api";
 import { useAuthStore } from "@/stores/auth";
+import { usePassStore } from "@/stores/pass";
 import { ref } from "vue";
 
+const passToken = usePassStore().passToken;
 const token = useAuthStore().token;
 const clientData = ref({});
 
-const tryCurrentPasswword = async () => {
-  const response = await fetch(`${BASE_URL}user/current-password`, {
+const requestUpdatePassword = async () => {
+  const response = await fetch(`${BASE_URL}user/request-update-password`, {
     method: "POST",
     headers: {
       "Content-Type": " application/json",
       Authorization: `Bearer ${token}`,
     },
+    credentials: "include",
+    mode: "cors",
     body: JSON.stringify(clientData.value),
   });
 
-  if (response.status == 202) {
-    router.push("/user/change-password");
-  } else {
-    alert("Failed to veirfy identity");
+  localStorage.removeItem("passToken");
+  if (response.status == 200) {
+    alert("Check your email for reset password link");
+    const responseData = await response.text();
+    localStorage.setItem("passToken", responseData);
+    router.push("/");
+  } else if (response.status == 403) {
+    alert("Link expired or invalid");
+    const errorBody = await response.json();
+    console.log(errorBody);
+  } else if (response.status == 400) {
+    alert("Invalid credentials");
+    const errorBody = await response.json();
+    console.log(errorBody);
+  } else if (response.status == 500) {
+    alert("Failed to send email");
     const errorBody = await response.json();
     console.log(errorBody);
   }
+  console.log("Pass Token ", passToken);
 };
 </script>

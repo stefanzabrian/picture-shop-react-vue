@@ -75,8 +75,10 @@
 import router from "@/router";
 import { BASE_URL } from "@/router/api";
 import { useAuthStore } from "@/stores/auth";
+import { usePassStore } from "@/stores/pass";
 import { ref } from "vue";
 
+const passToken = usePassStore().passToken;
 const token = useAuthStore().token;
 const clientData = ref({});
 
@@ -86,12 +88,14 @@ const updatePassword = async () => {
     return; // Prevent further execution
   }
 
-  const response = await fetch(`${BASE_URL}user/change-password`, {
+  const response = await fetch(`${BASE_URL}user/reset-password?token=${passToken}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
+    credentials: "include",
+    mode: "cors",
     body: JSON.stringify(clientData.value),
   });
   if (response.status == 200) {

@@ -10,7 +10,7 @@ import {
 
 import { ArrowRightCircleIcon, ChevronDownIcon, CogIcon, FilmIcon, PlusIcon, UserIcon, ClipboardDocumentCheckIcon } from "@heroicons/vue/20/solid";
 import {
-  SquaresPlusIcon, ShoppingCartIcon
+   ShoppingCartIcon
 } from "@heroicons/vue/24/outline";
 
 type Option = {

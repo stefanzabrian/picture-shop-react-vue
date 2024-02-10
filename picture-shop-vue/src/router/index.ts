@@ -69,9 +69,22 @@ const router = createRouter({
       component: VerifyIdentityView,
     },
     {
-      path: "/user/change-password",
-      name: "change-password",
+      path: "/user/reset-password",
+      name: "reset-password",
       component: ChangePasswordView,
+      props: (route) => ({ token: route.query.token }),
+      beforeEnter: (to, from, next) => {
+        const passToken = localStorage.getItem("passToken");
+        const tokenFromRoute = to.query.token;
+        if (passToken === tokenFromRoute) {
+          // If passToken matches the token from the route, proceed to ChangePasswordView
+          next();
+        } else {
+          // If passToken does not match, redirect to some other route or display an error
+          alert("Not Allowed!")
+          next('/'); // Redirect to some other route
+        }
+      },
     },
     {
       path: "/order/all",
