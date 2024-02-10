@@ -10,12 +10,11 @@ const token = useAuthStore().token;
 const clientData = ref({});
 
 
-const requestUpdatePassword = async () => {
-  const response = await fetch(`${BASE_URL}user/request-update-password`, {
+const requestForgotPassword = async () => {
+  const response = await fetch(`${BASE_URL}user/forgot-password`, {
     method: "POST",
     headers: {
       "Content-Type": " application/json",
-      Authorization: `Bearer ${token}`,
     },
     credentials: "include",
     mode: "cors",
@@ -28,12 +27,8 @@ const requestUpdatePassword = async () => {
     const responseData = await response.text();
     localStorage.setItem("passToken", responseData);
     router.push("/");
-  } else if (response.status == 403) {
-    alert("Invalid password");
-    const errorBody = await response.json();
-    console.log(errorBody);
   } else if (response.status == 400) {
-    alert("Invalid password is empty or email not valid");
+    alert("Email don't exists");
     const errorBody = await response.json();
     console.log(errorBody);
   } else if (response.status == 500) {
@@ -58,7 +53,7 @@ const requestUpdatePassword = async () => {
       <h2
         class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
       >
-        Confirm Identity
+        Enter E-mail Address
       </h2>
     </div>
 
@@ -67,19 +62,19 @@ const requestUpdatePassword = async () => {
         class="space-y-6"
         action="#"
         method="POST"
-        @submit.prevent="requestUpdatePassword"
+        @submit.prevent="requestForgotPassword"
       >
         <div>
           <label
             for="current password"
             class="block text-sm font-medium leading-6 text-gray-900"
-            >Current Password</label
+            >Current Email</label
           >
           <div class="mt-2">
             <input
-              id="current password"
-              name="current password"
-              type="password"
+              id="current email"
+              name="current email"
+              type="email"
               v-model="clientData.currentPassword"
               required="true"
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -93,7 +88,7 @@ const requestUpdatePassword = async () => {
             :disabled="!clientData.currentPassword"
             class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Next
+            Send
           </button>
         </div>
       </form>

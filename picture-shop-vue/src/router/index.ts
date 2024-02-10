@@ -9,10 +9,12 @@ import SinglePictureView from "@/views/picture/SinglePictureView.vue";
 import EditPictureView from "@/views/picture/EditPictureView.vue";
 import ViewClientDetails from "@/views/user-client/ViewClientDetails.vue";
 import VerifyIdentityView from "@/views/user-client/VerifyIdentityView.vue";
-import ChangePasswordView from "@/views/user-client/ChangePasswordView.vue";
+import UpdatePasswordView from "@/views/user-client/UpdatePasswordView.vue";
 import AllOrderView from "@/views/order/AllOrderView.vue";
 import ShoppingCartView from "@/views/shopping-cart/ShoppingCartView.vue";
 import UserOrdersView from "@/views/order/UserOrdersView.vue";
+import ForgotPasswordView from "@/views/user-client/ForgotPasswordView.vue";
+import ResetPasswordView from "@/views/user-client/ResetPasswordView.vue";
 import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
@@ -49,8 +51,8 @@ const router = createRouter({
       component: AllPictureView,
     },
     {
-      path: '/picture/:id',
-      name: 'single-picture-view',
+      path: "/picture/:id",
+      name: "single-picture-view",
       component: SinglePictureView,
     },
     {
@@ -69,9 +71,9 @@ const router = createRouter({
       component: VerifyIdentityView,
     },
     {
-      path: "/user/reset-password",
-      name: "reset-password",
-      component: ChangePasswordView,
+      path: "/user/update-password",
+      name: "update-password",
+      component: UpdatePasswordView,
       props: (route) => ({ token: route.query.token }),
       beforeEnter: (to, from, next) => {
         const passToken = localStorage.getItem("passToken");
@@ -81,10 +83,33 @@ const router = createRouter({
           next();
         } else {
           // If passToken does not match, redirect to some other route or display an error
-          alert("Not Allowed!")
-          next('/'); // Redirect to some other route
+          alert("Not Allowed!");
+          next("/"); // Redirect to some other route
         }
       },
+    },
+    {
+      path: "/user/reset-password",
+      name: "resset-password",
+      component: ResetPasswordView,
+      props: (route) => ({ token: route.query.token }),
+      beforeEnter: (to, from, next) => {
+        const passToken = localStorage.getItem("passToken");
+        const tokenFromRoute = to.query.token;
+        if (passToken === tokenFromRoute) {
+          // If passToken matches the token from the route, proceed to ChangePasswordView
+          next();
+        } else {
+          // If passToken does not match, redirect to some other route or display an error
+          alert("Not Allowed!");
+          next("/"); // Redirect to some other route
+        }
+      },
+    },
+    {
+      path: "/user/forgot-password",
+      name: "request-forgot-password",
+      component: ForgotPasswordView,
     },
     {
       path: "/order/all",
@@ -105,7 +130,7 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to) => {
-  const publicPages = ["/login", "/register"];
+  const publicPages = ["/login", "/register", "/user/forgot-password","/user/reset-password"];
   const authRequired = !publicPages.includes(to.path);
   const auth = useAuthStore();
 
@@ -114,16 +139,12 @@ router.beforeEach(async (to) => {
     // redirect to login
     return auth.logout();
   }
- 
-  // i want to verify if back end sends any json that contains "JWT was expired or incorrect" into the 
-  // JSON at value of field "message" 
+
+  // i want to verify if back end sends any json that contains "JWT was expired or incorrect" into the
+  // JSON at value of field "message"
   // an example or response {"timestamp":1705663159969,"message":"JWT was expired or incorrect","details":"JWT validation failed"}
-  // and if so i want to perform auth.logout(); 
+  // and if so i want to perform auth.logout();
   // how do i do that  here ???
-
-
-
 });
-
 
 export default router;

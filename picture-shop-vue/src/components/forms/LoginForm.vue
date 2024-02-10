@@ -70,7 +70,15 @@
         </div>
       </form>
 
-      <p class="mt-10 text-center text-sm text-gray-500">
+      <div class="text-sm mt-4">
+          <a
+            href="/user/forgot-password"
+            class="font-semibold text-indigo-600 hover:text-indigo-500"
+            >Forgot password?</a
+          >
+        </div>
+
+      <p class="mt-5 text-center text-sm text-gray-500">
         Not a member?
         <a
           href="/register"

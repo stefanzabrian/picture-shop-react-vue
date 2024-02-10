@@ -88,7 +88,7 @@ const updatePassword = async () => {
     return; // Prevent further execution
   }
 
-  const response = await fetch(`${BASE_URL}user/reset-password?token=${passToken}`, {
+  const response = await fetch(`${BASE_URL}user/update-password?token=${passToken}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -100,6 +100,7 @@ const updatePassword = async () => {
   });
   if (response.status == 200) {
     alert("Password changed");
+    localStorage.removeItem("passToken");
     router.push("/");
   } else {
     alert("Failed to update password");
