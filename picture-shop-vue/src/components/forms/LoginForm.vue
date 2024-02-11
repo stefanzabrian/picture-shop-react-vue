@@ -2,8 +2,8 @@
   <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
       <img
-        class="mx-auto h-10 w-auto"
-        src="https://www.freeiconspng.com/uploads/blue-ee-game-logo-png-images-24.png"
+        class="mx-auto h-24 w-32 spin"
+        src="F:\IT Projects\Picture Shop FrontEnd\React\picture-shop-vue\logo_transparent.png"
         alt="Your Company"
       />
       <h2

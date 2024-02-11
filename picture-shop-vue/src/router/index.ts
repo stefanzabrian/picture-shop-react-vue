@@ -15,6 +15,7 @@ import ShoppingCartView from "@/views/shopping-cart/ShoppingCartView.vue";
 import UserOrdersView from "@/views/order/UserOrdersView.vue";
 import ForgotPasswordView from "@/views/user-client/ForgotPasswordView.vue";
 import ResetPasswordView from "@/views/user-client/ResetPasswordView.vue";
+import SingleOrderView from "@/views/order/SingleOrderView.vue";
 import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
@@ -125,6 +126,11 @@ const router = createRouter({
       path: "/user/all-orders",
       name: "user-orders",
       component: UserOrdersView,
+    },
+    {
+      path: "/single-order-view/:id",
+      name: "single-order-view",
+      component: SingleOrderView,
     },
   ],
 });

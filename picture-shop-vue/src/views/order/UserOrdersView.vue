@@ -2,10 +2,19 @@
 import { useAuthStore } from "@/stores/auth";
 import { BASE_URL } from "@/router/api";
 import { onMounted, ref } from "vue";
+import router from "@/router";
 
 const auth = useAuthStore();
 const token = auth.token;
 const orders = ref({});
+
+const navigateToSingleOrder = (order) => {
+  router.push({
+    name: "single-order-view",
+    params: { id: order.id.toString() },
+    query: { orderId: order.id.toString() },
+  });
+};
 
 onMounted(async () => {
   const response = await fetch(`${BASE_URL}order/user-orders`, {
@@ -92,6 +101,18 @@ const getOrderStatusDisplayName = (status) => {
             <div class="flex-shrink-0 w-64">
               <p class="text-xs text-gray-500 dark:text-gray-400">Status</p>
               {{ getOrderStatusDisplayName(order.status) }}
+            </div>
+
+            <!-- Button-->
+            <div class="flex-shrink-0 w-64">
+              <p class="text-xs text-gray-500 dark:text-gray-400">Options</p>
+              <button
+                type="submit"
+                @click="navigateToSingleOrder(order)"
+                class="rounded-md bg-blue-600 mt-2 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+              >
+                View
+              </button>
             </div>
           </div>
         </div>

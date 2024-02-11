@@ -45,7 +45,7 @@ const usersOptions: Option[] = [
   },
   {
     name: "Orders",
-    description: "See all orders",
+    description: "See my orders",
     href: "/user/all-orders",
     icon: ClipboardDocumentCheckIcon,
   },
