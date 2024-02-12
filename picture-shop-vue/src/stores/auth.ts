@@ -13,10 +13,14 @@ export const useAuthStore = defineStore({
     const isTokenExpired = expirationDate < currendDate;
     localStorage.setItem('isExpired', JSON.stringify(isTokenExpired));
 
+    const storedAuthority = localStorage.getItem("authority");
+
 
     return {
       user: storedUser ? JSON.parse(storedUser) : null,
       token: storedToken ? JSON.parse(storedToken) : null,
+
+      authority: storedAuthority ? JSON.parse(storedAuthority) : null,
       returnUrl: "/",
     };
   },
@@ -35,28 +39,48 @@ export const useAuthStore = defineStore({
         const accessToken = responseData.accessToken;
         const expirationDate = responseData.expirationDate;
 
+        const tokenPayload = parseJwt(accessToken);
+        const authority = tokenPayload.authorities[0];
+
         localStorage.setItem("user", JSON.stringify(email));
         localStorage.setItem("token", JSON.stringify(accessToken));
         localStorage.setItem("expirationDate", JSON.stringify(expirationDate));
+        localStorage.setItem("authority", JSON.stringify(authority));
         this.user = email;
         this.token = accessToken;
+        this.authority = authority;
         router.push(this.returnUrl || "/");
         return true;
       } else {
         return false;
       }
-      
     },
 
 
     logout() {
       this.user = null;
       this.token = null;
+      this.authority = null;
       localStorage.removeItem("user");
       localStorage.removeItem("token");
       localStorage.removeItem("expirationDate");
       localStorage.removeItem("isTokenExpired");
+      localStorage.removeItem("authority");
       router.push("/login");
     },
   },
 });
+// Function to parse JWT token
+function parseJwt(token: string) {
+  const base64Url = token.split(".")[1];
+  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  const jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split("")
+      .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+      .join("")
+  );
+
+  return JSON.parse(jsonPayload);
+}
+

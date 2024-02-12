@@ -11,7 +11,19 @@ const data = ref("");
 const route = useRoute();
 const pic = usePictureStore();
 
+const canEdit = ref(false);
+const canDelete = ref(false);
+
 onMounted(async () => {
+  const authorityObject = JSON.parse(localStorage.getItem("authority"));
+  const authority = authorityObject ? authorityObject.authority : null;
+
+  // Check if the user is ADMIN or MODERATOR
+  if (authority === "ADMIN" || authority === "MODERATOR") {
+    canEdit.value = true;
+    canDelete.value = true;
+  }
+
   const pictureId = route.params.id;
   const picture = route.query.pictureId;
 
@@ -43,9 +55,7 @@ onMounted(async () => {
       </h3>
     </div>
     <div class="lg:flex lg:justify-end">
-      <div
-        class="ml-4 px-4 py-6 sm:grid"
-      >
+      <div v-if="canEdit" class="ml-4 px-4 py-6 sm:grid">
         <div>
           <router-link
             :to="{ name: 'edit-picture-view', params: { id: data.id } }"
@@ -57,36 +67,41 @@ onMounted(async () => {
       </div>
 
       <div
-            class="ml-4 px-4 py-5 sm:grid sm:grid-cols-1.5 sm:px-0"
+        v-if="canDelete"
+        class="ml-4 px-4 py-5 sm:grid sm:grid-cols-1.5 sm:px-0"
+      >
+        <div>
+          <button
+            type="submit"
+            @click="pic.delete(data.id)"
+            class="rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
           >
-            <div>
-              <button
-                type="submit"
-                @click="pic.delete(data.id)"
-                class="rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
+            Delete
+          </button>
+        </div>
+      </div>
     </div>
     <div class="mt-6">
-      <dl class="divide-y border-b border-t border-r border-l border-indigo-500 mb-10">
+      <dl
+        class="divide-y border-b border-t border-r border-l border-indigo-500 mb-10"
+      >
         <div>
           <div
             class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 border-b"
           >
-            <dt class="ml-4 text-sm font-medium leading-6 text-gray-900">Name</dt>
+            <dt class="ml-4 text-sm font-medium leading-6 text-gray-900">
+              Name
+            </dt>
             <dd
               class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
             >
               {{ data.name }}
             </dd>
           </div>
-          <div
-            class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0"
-          >
-            <dt class="ml-4 text-sm font-medium leading-6 text-gray-900">Price</dt>
+          <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt class="ml-4 text-sm font-medium leading-6 text-gray-900">
+              Price
+            </dt>
             <dd
               class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
             >
@@ -96,9 +111,7 @@ onMounted(async () => {
         </div>
 
         <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt
-            class="ml-4 text-sm font-medium leading-6 text-gray-900"
-          >
+          <dt class="ml-4 text-sm font-medium leading-6 text-gray-900">
             Description
           </dt>
           <dd
@@ -109,7 +122,7 @@ onMounted(async () => {
         </div>
         <div class="flex items-center justify-center">
           <div class="overflow-hidden mt-5 mb-5 mr-5 ml-5">
-            <img v-if="data.pictureUrl" :src="data.pictureUrl" alt="Picture"/>
+            <img v-if="data.pictureUrl" :src="data.pictureUrl" alt="Picture" />
           </div>
         </div>
       </dl>
