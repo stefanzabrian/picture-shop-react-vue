@@ -55,7 +55,7 @@ const getOrderStatusDisplayName = (status) => {
 <template>
   <div v-for="order in data[0]" :key="order.id" class="flex items-center border-b border-r border-l border-t">
     <ul class="flex ml-2 max-w-md divide-y divide-gray-200 dark:divide-gray-700">
-      <li class="sm:pb-4 sm:pt-4">
+      <li class="sm:pb-4 sm:pt-4 shadow-lg">
         <div class="rtl:space-x-reverse">
           <div class="flex border-r">
             <!-- Ordered By -->
@@ -114,7 +114,7 @@ const getOrderStatusDisplayName = (status) => {
               <button
                 type="submit"
                 @click="navigateToSingleOrder(order)"
-                class="rounded-md bg-blue-600 mt-2 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                class="rounded-md bg-amber-500 mt-2 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-amber-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
               >
                 View
               </button>
@@ -125,7 +125,7 @@ const getOrderStatusDisplayName = (status) => {
               <button
                 type="submit"
                 @click="navigateToUpdateOrder(order)"
-                class="rounded-md bg-blue-600 mt-2 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600"
+                class="rounded-md bg-amber-500 mt-2 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-amber-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600"
               >
                 Update
               </button>

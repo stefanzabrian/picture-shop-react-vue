@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .spin {
-    animation: spin 2s linear infinite;
+    animation: spin 46s linear infinite;
   }
   
   @keyframes spin {

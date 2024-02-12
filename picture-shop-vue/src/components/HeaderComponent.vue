@@ -8,14 +8,19 @@ import {
   PopoverPanel,
 } from "@headlessui/vue";
 
-import { ArrowRightCircleIcon, ChevronDownIcon, CogIcon, FilmIcon, PlusIcon, UserIcon, ClipboardDocumentCheckIcon } from "@heroicons/vue/20/solid";
 import {
-   ShoppingCartIcon
-} from "@heroicons/vue/24/outline";
+  ArrowRightCircleIcon,
+  ChevronDownIcon,
+  CogIcon,
+  FilmIcon,
+  PlusIcon,
+  UserIcon,
+  ClipboardDocumentCheckIcon,
+} from "@heroicons/vue/20/solid";
+import { ShoppingCartIcon } from "@heroicons/vue/24/outline";
 
 type Option = {
   name: string;
-  description: string;
   href?: string;
   icon: Function;
   onClick?: () => void;
@@ -24,13 +29,11 @@ type Option = {
 const products: Option[] = [
   {
     name: "View all",
-    description: "View all Pictures",
     href: "/picture/all",
     icon: FilmIcon,
   },
   {
     name: "Create",
-    description: "Add new picture",
     href: "/picture/create",
     icon: PlusIcon,
   },
@@ -39,19 +42,18 @@ const products: Option[] = [
 const usersOptions: Option[] = [
   {
     name: "Settings",
-    description: "Edit details",
+
     href: "/user/view-client",
     icon: CogIcon,
   },
   {
     name: "Orders",
-    description: "See my orders",
+
     href: "/user/all-orders",
     icon: ClipboardDocumentCheckIcon,
   },
   {
     name: "Logout",
-    description: "Logout",
     onClick: logout,
     icon: ArrowRightCircleIcon,
   },
@@ -62,28 +64,37 @@ const auth = useAuthStore();
 function logout() {
   auth.logout();
 }
-
-
 </script>
 
 <template>
   <div>
-    <header class="p-8" v-if="auth.user !== null">
+    <header class="p-8 bg-amber-500 shadow-lg rounded-md" v-if="auth.user !== null">
       <nav class="flex items-center justify between">
-        <div>
-          <RouterLink to="/">Dashboard</RouterLink>
-          <RouterLink to="/about" class="ml-3">About</RouterLink>
-          <RouterLink to="/order/all" class="ml-3">All Orders</RouterLink>
+        <div class="flex ml-2 mr-6 font-bold text-xl">
+          <img
+            class="mx-auto h-12 w-12"
+            src="F:\IT Projects\Picture Shop FrontEnd\React\picture-shop-vue\logo-transparent-static.png"
+            alt="Your Company"
+          />
+          <p class="text-blue-900 py-2 font-semibold font-serif">VOYAGE WELL</p>
         </div>
-        <div class="ml-4">
+        <div class="text-violet-800">
+          <RouterLink to="/">Dashboard</RouterLink>
+          <span class="mx-4">•</span>
+          <RouterLink to="/about" class="ml-3">About</RouterLink>
+          <span class="mx-4">•</span>
+          <RouterLink to="/order/all" class="ml-3">All Orders</RouterLink>
+          <span class="mx-4">•</span>
+        </div>
+        <div class="ml-1">
           <PopoverGroup class="hidden lg:flex lg:gap-x-12">
             <Popover class="relative">
               <PopoverButton
-                class="flex items-center gap-x-1 text leading-6 text-gray-900"
+                class="flex items-center gap-x-1 text leading-6 text-violet-800"
               >
                 Picture
                 <ChevronDownIcon
-                  class="h-5 w-5 flex-none text-gray-400"
+                  class="h-5 w-5 flex-none text-violet-800"
                   aria-hidden="true"
                 />
               </PopoverButton>
@@ -99,7 +110,7 @@ function logout() {
                 <PopoverPanel
                   class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5"
                 >
-                  <div class="p-4">
+                  <div class="p-4 bg-amber-100">
                     <div
                       v-for="item in products"
                       :key="item.name"
@@ -118,7 +129,7 @@ function logout() {
                         <a
                           v-if="item.onClick"
                           href="#"
-                          class="block font-semibold text-gray-900"
+                          class="block font-semibold text-violet-800"
                           @click.preevent="item.onClick"
                         >
                           {{ item.name }}
@@ -127,12 +138,12 @@ function logout() {
                         <a
                           v-else
                           :href="item.href"
-                          class="block font-semibold text-gray-900"
+                          class="block font-semibold text-violet-800"
                         >
                           {{ item.name }}
                           <span class="absolute inset-0" />
                         </a>
-                        <p class="mt-1 text-gray-600">{{ item.description }}</p>
+                      
                       </div>
                     </div>
                   </div>
@@ -147,11 +158,10 @@ function logout() {
             <PopoverGroup class="lg:flex lg:gap-x-12">
               <Popover class="relative">
                 <PopoverButton
-                  class="flex items-center gap-x-5 text leading-6 text-gray-900"
+                  class="flex items-center gap-x-5 text leading-6 text-indigo-600"
                 >
-                 {{ auth.user }}
                   <UserIcon
-                    class="h-5 w-5 flex-none text-gray-400"
+                    class="h-9 w-9 flex-none text-indigo-600"
                     aria-hidden="true"
                   />
                 </PopoverButton>
@@ -165,9 +175,13 @@ function logout() {
                   leave-to-class="opacity-0 translate-y-1"
                 >
                   <PopoverPanel
-                    class="absolute -left-8 top-full z-10 mt-3 max-w-md rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5"
+                    class="absolute -left-32 top-full z-10 mt-3 max-w-md rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5"
                   >
-                    <div class="p-4">
+                    <div class="p-4 bg-amber-100 rounded-3xl w-full">
+                      <div class="flex">
+                        <p class="text-indigo-600 top-full mr-2">Hello!</p>
+                        <p class="text-indigo-600 top-full">{{ auth.user }}</p>
+                      </div>
                       <div
                         v-for="item in usersOptions"
                         :key="item.name"
@@ -186,7 +200,7 @@ function logout() {
                           <a
                             v-if="item.onClick"
                             href="#"
-                            class="block font-semibold text-gray-900"
+                            class="block font-semibold text-violet-800"
                             @click.preevent="item.onClick"
                           >
                             {{ item.name }}
@@ -195,14 +209,12 @@ function logout() {
                           <a
                             v-else
                             :href="item.href"
-                            class="block font-semibold text-gray-900"
+                            class="block font-semibold text-violet-800"
                           >
                             {{ item.name }}
                             <span class="absolute inset-0" />
                           </a>
-                          <p class="mt-1 text-gray-600">
-                            {{ item.description }}
-                          </p>
+                  
                         </div>
                       </div>
                     </div>
@@ -213,13 +225,14 @@ function logout() {
           </div>
         </div>
 
-        <div>
-            <RouterLink to="/shopping-cart">
-             <ShoppingCartIcon
-                    class="h-7 w-6 ml-5 text-gray-900"
-                    aria-hidden="true"/>
-                  </RouterLink>
-          </div>
+        <div class="mr-24 ml-2">
+          <RouterLink to="/shopping-cart">
+            <ShoppingCartIcon
+              class="h-12 w-8 ml-5 text-violet-800"
+              aria-hidden="true"
+            />
+          </RouterLink>
+        </div>
       </nav>
     </header>
   </div>

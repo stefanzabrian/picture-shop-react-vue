@@ -85,7 +85,7 @@ onMounted(async () => {
             :src="picture.pictureUrl"
             @click="navigateToSinglePicture(picture)"
             alt="Picture"
-            class="w-[400px] h-[400px] cursor-pointer"
+            class="shadow-lg w-[400px] h-[400px] cursor-pointer"
           />
           <span v-else>No Image Available</span>
         </div>
@@ -106,23 +106,23 @@ onMounted(async () => {
         <div
           class="bottom-section flex flex-row items-center justify-between px-6 pt-1 pb-5"
         >
-          <div class="px-7 pb-2">
+          <div class="px-6 pt-1 pb-5">
             <p class="text-xs text-gray-500 dark:text-gray-400 ml-2 mb-2">
               Price
             </p>
             <span
-              class="inline-block bg-gray-200 rounded-full px-9 py-3 text-sm font-semibold text-gray-700 mr-2 mb-2"
+              class="inline-block bg-amber-500 rounded-md px-9 py-3 text-sm font-semibold text-gray-700 mr-2 mb-2"
               >{{ picture.price }}</span
             >
           </div>
 
-          <div class="px-6 pt-1 pb-5">
+          <div class="px-6 pt-1 pb-5 shadow-lg">
             <p class="text-xs text-gray-500 dark:text-gray-400 ml-2 mb-2">
               Buy
             </p>
             <button
             @click="addToShoppingCart(picture)"
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              class="bg-amber-700 rounded-md hover:bg-amber-900 text-white font-bold py-2 px-5"
             >
               Add to cart
             </button>

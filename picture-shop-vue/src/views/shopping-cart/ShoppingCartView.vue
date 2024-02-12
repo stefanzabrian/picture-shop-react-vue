@@ -1,5 +1,5 @@
 <template>
-  <body class="bg-gray-100 overflow-y-hidden" style="height: 700px">
+  <body class="bg-amber-100 overflow-y-hidden" style="height: 700px">
     <div class="flex items-center justify-center py-8">
       <button
         class="py-2 px-10 rounded bg-indigo-600 hover:bg-indigo-700 text-white"
@@ -8,7 +8,7 @@
       </button>
     </div>
     <div
-      class="w-full h-full bg-black bg-opacity-90 top-0 overflow-y-auto overflow-x-hidden fixed sticky-0"
+      class="w-full h-full bg-amber bg-opacity-90 top-0 overflow-y-auto overflow-x-hidden fixed sticky-0"
       id="chec-div"
     >
       <div
@@ -17,12 +17,12 @@
       >
         <div class="flex items-end lg:flex-row flex-col" id="cart">
           <div
-            class="lg:w-1/2 md:w-8/12 w-full lg:px-8 lg:py-14 md:px-6 px-4 md:py-8 py-4 bg-white overflow-y-auto overflow-x-hidden lg:h-screen h-auto"
+            class="lg:w-1/2 md:w-8/12 w-full lg:px-8 lg:py-14 md:px-6 px-4 md:py-8 py-4 bg-amber-100 rounded-md overflow-y-auto overflow-x-hidden lg:h-screen h-auto"
             id="scroll"
           >
             <div class="flex items-center justify-between">
               <div
-                class="flex items-center text-gray-500 hover:text-gray-600 cursor-pointer"
+                class="flex items-center text-violet-800 hover:text-gray-600 cursor-pointer"
               >
                 <a href="/" class="flex items-center">
                   <svg
@@ -43,7 +43,7 @@
                 </a>
               </div>
               <div
-                class="flex items-center text-gray-500 hover:text-gray-600 cursor-pointer"
+                class="flex items-center text-violet-800 hover:text-gray-600 cursor-pointer"
               >
                 <a href="/picture/all" class="flex items-center">
                   <svg
@@ -67,7 +67,7 @@
               </div>
             </div>
             <p
-              class="lg:text-4xl text-3xl font-black leading-10 text-gray-800 pt-3"
+              class="lg:text-4xl text-3xl font-black leading-10 text-violet-900 pt-3"
             >
               Shopping cart
             </p>
@@ -137,7 +137,7 @@
                       </svg>
                     </button>
                     <p
-                      class="form-label ml-6 mr-6 mt-2 mb-2 text-base font-black leading-none text-gray-800"
+                      class="form-label ml-6 mr-6 mt-2 mb-2 text-base font-black leading-none text-violet-800"
                       for="form1"
                     >
                       {{ product.quantity || "No quantity" }}
@@ -166,13 +166,13 @@
               </div>
             </div>
           </div>
-          <div class="lg:w-96 md:w-8/12 w-full bg-gray-100 h-full">
+          <div class="lg:w-96 md:w-8/12 w-full bg-amber-200 h-full rounded-md">
             <div
               class="flex flex-col lg:h-screen h-auto lg:px-8 md:px-7 px-4 lg:py-20 md:py-10 py-6 justify-between overflow-y-auto"
             >
               <div>
                 <p
-                  class="lg:text-4xl text-3xl font-black leading-9 text-gray-800"
+                  class="lg:text-4xl text-3xl font-black leading-9 text-violet-900"
                 >
                   Summary
                 </p>
@@ -206,7 +206,7 @@
                 </div>
                 <button
                   @click="checkOut()"
-                  class="text-base leading-none w-full py-5 bg-gray-800 border-gray-800 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-white"
+                  class="text-base leading-none w-full py-5 bg-amber-800 border-gray-800 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-white"
                 >
                   Checkout
                 </button>

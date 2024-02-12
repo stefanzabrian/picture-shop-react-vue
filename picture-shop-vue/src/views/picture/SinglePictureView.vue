@@ -83,7 +83,7 @@ onMounted(async () => {
     </div>
     <div class="mt-6">
       <dl
-        class="divide-y border-b border-t border-r border-l border-indigo-500 mb-10"
+        class="divide-y border-b border-t border-r border-l border-indigo-500 mb-10 rounded-lg"
       >
         <div>
           <div
@@ -121,7 +121,7 @@ onMounted(async () => {
           </dd>
         </div>
         <div class="flex items-center justify-center">
-          <div class="overflow-hidden mt-5 mb-5 mr-5 ml-5">
+          <div class="overflow-hidden mt-5 mb-5 mr-5 ml-5 shadow-lg">
             <img v-if="data.pictureUrl" :src="data.pictureUrl" alt="Picture" />
           </div>
         </div>

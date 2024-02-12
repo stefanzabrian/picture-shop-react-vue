@@ -3,7 +3,7 @@
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
       <img
         class="mx-auto h-24 w-32 spin"
-        src="F:\IT Projects\Picture Shop FrontEnd\React\picture-shop-vue\logo_transparent.png"
+        src="F:\IT Projects\Picture Shop FrontEnd\React\picture-shop-vue\logo-transparent.png"
         alt="Your Company"
       />
       <h2

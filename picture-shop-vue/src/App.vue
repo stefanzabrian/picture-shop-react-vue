@@ -5,7 +5,7 @@ import FooterComponent from "./components/FooterComponent.vue";
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-100 container mx-auto">
+  <div class="min-h-screen bg-amber-100 mx-auto">
     <HeaderComponent />
     <main class="p-8">
       <RouterView />
