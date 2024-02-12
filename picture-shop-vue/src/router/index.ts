@@ -16,6 +16,7 @@ import UserOrdersView from "@/views/order/UserOrdersView.vue";
 import ForgotPasswordView from "@/views/user-client/ForgotPasswordView.vue";
 import ResetPasswordView from "@/views/user-client/ResetPasswordView.vue";
 import SingleOrderView from "@/views/order/SingleOrderView.vue";
+import UpdateOrderView from "@/views/order/UpdateOrderView.vue";
 import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
@@ -131,6 +132,11 @@ const router = createRouter({
       path: "/single-order-view/:id",
       name: "single-order-view",
       component: SingleOrderView,
+    },
+    {
+      path: "/update-order/:id",
+      name: "update-order-view",
+      component: UpdateOrderView,
     },
   ],
 });

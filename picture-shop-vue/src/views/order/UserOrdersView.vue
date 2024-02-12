@@ -16,6 +16,14 @@ const navigateToSingleOrder = (order) => {
   });
 };
 
+const navigateToUpdateOrder = (order) => {
+  router.push({
+    name: "update-order-view",
+    params: { id: order.id.toString() },
+    query: { orderId: order.id.toString() },
+  });
+};
+
 onMounted(async () => {
   const response = await fetch(`${BASE_URL}order/user-orders`, {
     headers: {
@@ -104,14 +112,25 @@ const getOrderStatusDisplayName = (status) => {
             </div>
 
             <!-- Button-->
-            <div class="flex-shrink-0 w-64">
+            <div class="flex-shrink-0 w-24">
               <p class="text-xs text-gray-500 dark:text-gray-400">Options</p>
               <button
                 type="submit"
                 @click="navigateToSingleOrder(order)"
-                class="rounded-md bg-blue-600 mt-2 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                class="rounded-md bg-blue-600 mt-2 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
               >
                 View
+              </button>
+            </div>
+
+            <!-- Button-->
+            <div class="flex-shrink-0 w-32 mt-4">
+              <button
+                type="submit"
+                @click="navigateToUpdateOrder(order)"
+                class="rounded-md bg-blue-600 mt-2 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600"
+              >
+                Update
               </button>
             </div>
           </div>
