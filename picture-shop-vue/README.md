@@ -2,6 +2,7 @@
 
 This is my first touch with frontend and i pick vue (dunno why) and I would call it a failure.
 The brighter side of light is: I know now how not to...
+So ignore all whrited below and go check the code, let me know if understand something 
 
 ## Recommended IDE Setup
 
