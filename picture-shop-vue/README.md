@@ -1,6 +1,7 @@
 # picture-shop-vue
 
-This template should help get you started developing with Vue 3 in Vite.
+This is my first touch with frontend and i pick vue (dunno why) and I would call it a failure.
+The brighter side of light is: I know now how not to...
 
 ## Recommended IDE Setup
 
